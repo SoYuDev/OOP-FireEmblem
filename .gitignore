@@ -1,0 +1,17 @@
+# Archivos generados por Eclipse
+.classpath
+.project
+.settings/
+
+# Salidas compiladas
+/bin/
+/build/
+
+# Archivos del sistema
+*.log
+*.tmp
+*.swp
+
+# Archivos específicos de OS
+.DS_Store  # macOS
+Thumbs.db  # Windows
