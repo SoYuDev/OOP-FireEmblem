@@ -7,11 +7,9 @@ public class Main {
 	public static void main(String[] args) {
 
 		GameManager gm = new GameManager();
-
+		//Bienvenida
 		gm.bienvenida();
-		// Hacer como otra parte de asignacion de enemigos, combate y final...
-		gm.setNOfEnemies();
-		
+		//Selección número enemigos y asignación de los mismos
 		gm.assignEnemiesToFight();
 	}
 

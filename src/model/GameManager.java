@@ -26,7 +26,7 @@ public class GameManager {
 	public void bienvenida() {
 
 		System.out.println("Bienvenido al mundo de Fire Emblem Three Houses.\n");
-		
+
 		assignEnemies();
 
 		assignChar();
@@ -95,19 +95,19 @@ public class GameManager {
 			n = sc.nextInt();
 			sc.nextLine();
 		} while (n < N_MIN_ENEMIES || n > N_MAX_ENEMIES);
-		System.out.println("Perfecto has seleccionado " + nOfEnemies + " enemigos con los que combatir.");
 		nOfEnemies = n;
+		System.out.println("Perfecto, has seleccionado " + nOfEnemies + " enemigos con los que combatir.");
 	}
 
 	public void setNameAndHouse(int index) {
 		pj.setNombre(MAIN_CHARS[index]);
 		pj.setCasa(MAIN_HOUSES[index]);
 	}
-	
+
 	public int generateRandom(int min, int max) {
 		Random rand = new Random();
 		return rand.nextInt(max - min + 1) + min;
-		
+
 	}
 
 	public void assignEnemies() {
@@ -128,8 +128,9 @@ public class GameManager {
 		totalEnemigos.add(enemMagoArcano);
 
 	}
-	
+
 	public void assignEnemiesToFight() {
+		setNOfEnemies();
 		for (int i = 0; i < nOfEnemies; i++) {
 			enemigosToFight.add(totalEnemigos.get(i));
 			System.out.println("Se ha añadido el enemigo: " + totalEnemigos.get(i).getNombre() + " a la lista");
