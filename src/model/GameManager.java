@@ -20,6 +20,7 @@ public class GameManager {
 	private ArrayList<Enemigo> enemigosToFight = new ArrayList<Enemigo>();;
 
 	Estudiante pj = new Estudiante();
+	Enemigo currentEnemy = new Enemigo();
 
 	Scanner sc = new Scanner(System.in);
 
@@ -75,7 +76,6 @@ public class GameManager {
 			printPjSelection();
 
 		case 3:
-
 			setNameAndHouse(indexSelectedChar - 1);
 			printPjSelection();
 
@@ -136,13 +136,20 @@ public class GameManager {
 			System.out.println("Se ha añadido el enemigo: " + totalEnemigos.get(i).getNombre() + " a la lista");
 		}
 	}
+	
+	public void assignCurrentEnemy() {
+		int random = generateRandom(0, nOfEnemies);
+		currentEnemy = enemigosToFight.get(random);
+		System.out.println("Se ha asignado el siguiente enemigo: \n");
+		currentEnemy.imprimirInfo();
+	}
 
 	public void printEnemies(ArrayList<Enemigo> enemiesToPrint) {
 		for (Enemigo enem : enemiesToPrint) {
 			enem.imprimirInfo();
 		}
 	}
-
+	
 	public void printPjSelection() {
 		System.out.println("Has seleccionado a: ");
 		pj.imprimirInfo();
