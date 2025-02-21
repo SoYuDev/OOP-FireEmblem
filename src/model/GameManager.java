@@ -14,6 +14,10 @@ public class GameManager {
 
 	private final int N_MIN_ENEMIES = 2;
 	private final int N_MAX_ENEMIES = 5;
+	
+	private final int N_ATTACKS_PJ = 3;
+	private final int N_ATTACKS_ENEMY = 1;
+	
 
 	private int nOfEnemies = 0;
 	private ArrayList<Enemigo> totalEnemigos = new ArrayList<Enemigo>();
@@ -138,10 +142,17 @@ public class GameManager {
 	}
 	
 	public void assignCurrentEnemy() {
-		int random = generateRandom(0, nOfEnemies);
+		int random = generateRandom(0, nOfEnemies - 1);
 		currentEnemy = enemigosToFight.get(random);
 		System.out.println("Se ha asignado el siguiente enemigo: \n");
 		currentEnemy.imprimirInfo();
+	}
+	
+	public void combate() {
+		pj.atacar(currentEnemy, N_ATTACKS_PJ);
+		currentEnemy.atacar(pj, N_ATTACKS_ENEMY);
+		System.out.println("Vida de: " + pj.getNombre() + ": " + pj.getVida() +"/" + pj.getMaxVida());
+		System.out.println("Vida de: " + currentEnemy.getNombre() + ": " + currentEnemy.getVida() +"/" + currentEnemy.getMaxVida());
 	}
 
 	public void printEnemies(ArrayList<Enemigo> enemiesToPrint) {
