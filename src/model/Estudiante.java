@@ -10,6 +10,7 @@ public class Estudiante {
 	private int ataque;
 	private int defensa;
 	private int nivel;
+	private int maxVida;
 
 	// CONSTRUCTORES
 
@@ -19,24 +20,27 @@ public class Estudiante {
 		casa = "Blue Lions";
 		// Generamos un valor aleatorio entre 40 y 60 (Max - Min + 1) + Max
 		vida = this.generateRandom(40, 60);
+		maxVida = vida;
 		ataque = this.generateRandom(7, 12);
 		defensa = this.generateRandom(4, 7);
 		nivel = 1;
 	}
 
 	// Constructor con valores básicos para enemigo
-	public Estudiante(String nombre, int vida, int ataque, int defensa) {
+	public Estudiante(String nombre, int vida, int maxVida, int ataque, int defensa) {
 		this.nombre = nombre;
 		this.vida = vida;
+		this.maxVida = vida;
 		this.ataque = ataque;
 		this.defensa = defensa;
 	}
 
 	// Constructor completo - nivel ya que siempre será 1.
-	public Estudiante(String nombre, String casa, int vida, int ataque, int defensa) {
+	public Estudiante(String nombre, String casa, int vida, int maxVida, int ataque, int defensa) {
 		this.nombre = nombre;
 		this.casa = casa;
 		this.vida = vida;
+		this.maxVida = maxVida;
 		this.ataque = ataque;
 		this.defensa = defensa;
 		this.nivel = 1;
@@ -68,6 +72,14 @@ public class Estudiante {
 		this.vida = vida;
 	}
 
+	public int getMaxVida() {
+		return maxVida;
+	}
+	
+	public void setMaxVida(int maxVida) {
+		this.maxVida = maxVida;
+	}
+
 	public int getAtaque() {
 		return ataque;
 	}
@@ -94,18 +106,25 @@ public class Estudiante {
 
 	// MÉTODOS VARIOS
 
-	public void atacar(Estudiante defensor) {
+	public void atacar(Estudiante defensor, int nOfAttacks) {
 
 		if (vida > 0) {
-			if (defensor.getVida() > 0) {
-				int resultado = defensor.getVida() - (this.ataque - defensor.getDefensa());
 
-				defensor.setVida(resultado);
+			for (int i = 0; i < nOfAttacks; i++) {
+				if (defensor.getVida() > 0) {
+					int resultado = defensor.getVida() - (this.ataque - defensor.getDefensa());
 
-				defensor.imprimirInfo();
+					System.out.println(nombre + " Ataca a " + defensor.getNombre() + " quitandole " + resultado
+							+ " puntos de vida.");
+					if (resultado < 0) {
+						resultado = 0;
+					}
+					defensor.setVida(resultado);
+					defensor.imprimirInfo();
 
-			} else {
-				System.out.println(defensor.getNombre() + " está muerto/a");
+				} else {
+					System.out.println(defensor.getNombre() + " está muerto/a");
+				}
 			}
 		}
 	}

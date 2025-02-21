@@ -17,26 +17,28 @@ public class Enemigo extends Estudiante {
 
 	// Constructor Vacío
 	public Enemigo() {
-		super("Enemigo básico", 30, 8, 2);
+		super("Enemigo básico", 30, 30, 8, 2);
 		destreza = Destrezas.DEBIL;
 	}
 
 	// Constructor Completo
-	public Enemigo(String nombre, int vida, int ataque, int defensa, Destrezas destreza) {
-		super(nombre, vida, ataque, defensa);
+	public Enemigo(String nombre, int vida, int maxVida, int ataque, int defensa, Destrezas destreza) {
+		super(nombre, vida, maxVida, ataque, defensa);
 		this.destreza = destreza;
 	}
 
 	// Constructor específico para facilitar el uso en el código.
 	public Enemigo(String nombre, Destrezas destreza) {
 		// Siempre hay que llamar primero al super constructor
-		super("Paquito", 30, 8, 2);
+		super("Paquito", 30, 30, 8, 2);
 		if (destreza.equals(Destrezas.DEBIL)) {
 			this.setVida(VIDA_DEBIL);
+			this.setMaxVida(VIDA_DEBIL);
 			this.setAtaque(ATAQUE_DEBIL);
 			this.setDefensa(DEFENSA_DEBIL);
 		} else {
 			this.setVida(VIDA_FUERTE);
+			this.setMaxVida(VIDA_FUERTE);
 			this.setAtaque(ATAQUE_FUERTE);
 			this.setDefensa(DEFENSA_FUERTE);
 		}
