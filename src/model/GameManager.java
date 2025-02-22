@@ -35,7 +35,7 @@ public class GameManager {
 
 	// Muestra los elementos de un Array en un menú.
 	public void displayMenu(String[] arrayString) {
-		System.out.println("Elige entre alguna de las siguientes opciones: ");
+		System.out.println("Elige entre alguna de las siguientes opciones: \n");
 		for (int i = 0; i < arrayString.length; i++) {
 			System.out.println((i + 1) + ".-" + arrayString[i] + "\n");
 		}
@@ -136,34 +136,31 @@ public class GameManager {
 			System.out.println("Se ha añadido el enemigo: " + totalEnemigos.get(i).getNombre() + " a la lista");
 		}
 	}
-	
+
 	public void assignCurrentEnemy() {
 		// Generamos un valor aleatorio entre 0 y el número de enemigos especificado
 		// Le restamos - 1 porque este número irá al índice de un Array.
 		int random = generateRandom(0, nOfEnemies - 1);
 		currentEnemy = enemigosToFight.get(random);
-		System.out.println("Se ha asignado el siguiente enemigo: \n");
+		System.out.println("Se ha asignado el siguiente enemigo: " + currentEnemy.getNombre() + "\n");
 		currentEnemy.imprimirInfo();
 	}
-	
+
 	public void combate() {
-		while(pj.getVida() > 0 && currentEnemy.getVida() > 0) {
+		while (pj.getVida() > 0 && currentEnemy.getVida() > 0) {
 			pj.atacar(currentEnemy);
 			currentEnemy.atacar(pj);
-			pj.imprimirInfo();
-			currentEnemy.imprimirInfo();
 		}
-		}
-		
+	}
 
 	public void printEnemies(ArrayList<Enemigo> enemiesToPrint) {
 		for (Enemigo enem : enemiesToPrint) {
 			enem.imprimirInfo();
 		}
 	}
-	
+
 	public void printPjSelection() {
-		System.out.println("Has seleccionado a: ");
+		System.out.println("Has seleccionado a: \n");
 		pj.imprimirInfo();
 	}
 }

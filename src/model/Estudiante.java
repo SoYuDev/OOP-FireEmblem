@@ -129,8 +129,7 @@ public class Estudiante {
 					int resultado = defensor.getVida() - dmgToDo;
 
 					System.out.println(nombre + " Ataca a " + defensor.getNombre() + " quitandole " + dmgToDo
-							+ " puntos de vida.");
-					System.out.println("Ataque número: " + (i + 1) + " de " + N_ATTACKS_PJ);
+							+ " puntos de vida. - " + "Ataque número: " + (i + 1) + " de " + N_ATTACKS_PJ);
 					
 					if (resultado < 0) {
 						resultado = 0;
@@ -142,14 +141,19 @@ public class Estudiante {
 			if (defensor.getVida() <= 0) {
 				System.out.println(defensor.getNombre() + " ha sido debilitado/a!");
 				checkDestreza(defensor);
+				// Este else lo pongo para la info de la consola.
+			} else {
+				defensor.imprimirInfo();
 			}
 		}
 	}
 
 	public void checkDestreza(Enemigo enemy) {
 		if (enemy.getDestreza() == Destrezas.DEBIL) {
+			System.out.println("El enemigo era de destreza: " + enemy.getDestreza() + " subes 1 nivel!");
 			subirNivel(1);
 		} else if (enemy.getDestreza() == Destrezas.FUERTE) {
+			System.out.println("El enemigo era de destreza: " + enemy.getDestreza() + " subes 2 niveles!");
 			subirNivel(2);
 		}
 	}
@@ -180,12 +184,16 @@ public class Estudiante {
 	public void curarAlSubirLvl() {
 
 		if (vida + CURA_VIDA_LVLUP > maxVida) {
-			vida = maxVida;
 			System.out.println("Al subir de nivel recuperas: " + (maxVida - vida) + " puntos de vida!");
+			vida = maxVida;
+			
 		} else {
-			vida += CURA_VIDA_LVLUP;
 			System.out.println("Al subir de nivel recuperas: " + CURA_VIDA_LVLUP + " puntos de vida!");
+			vida += CURA_VIDA_LVLUP;
+
 		}
+		
+		imprimirInfo();
 	}
 
 	public void subirStatsMasLvl(int i) {
@@ -204,7 +212,7 @@ public class Estudiante {
 	// MÉTODOS DE IMPRESIÓN
 	public String toString() {
 		String info = "Estudiante: " + nombre + "\nCasa: " + casa + "\nVida: " + vida + "/" + maxVida + "\nAtaque: " + ataque
-				+ "\nDefensa: " + defensa + "\nNivel: " + nivel;
+				+ "\nDefensa: " + defensa + "\nNivel: " + nivel + "\n";
 		return info;
 	}
 
