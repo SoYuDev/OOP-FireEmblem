@@ -74,10 +74,12 @@ public class GameManager {
 		case 2:
 			setNameAndHouse(indexSelectedChar - 1);
 			printPjSelection();
+			break;
 
 		case 3:
 			setNameAndHouse(indexSelectedChar - 1);
 			printPjSelection();
+			break;
 
 		default:
 			System.out.println("Error");
