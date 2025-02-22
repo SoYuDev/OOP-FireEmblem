@@ -74,10 +74,12 @@ public class GameManager {
 		case 2:
 			setNameAndHouse(indexSelectedChar - 1);
 			printPjSelection();
+			break;
 
 		case 3:
 			setNameAndHouse(indexSelectedChar - 1);
 			printPjSelection();
+			break;
 
 		default:
 			System.out.println("Error");
@@ -150,6 +152,28 @@ public class GameManager {
 		while (pj.getVida() > 0 && currentEnemy.getVida() > 0) {
 			pj.atacar(currentEnemy);
 			currentEnemy.atacar(pj);
+		}
+	}
+
+	public void juego() {
+
+		while (pj.getVida() > 0 && pj.getNivel() < 10) {
+			combate();
+			// Si el pj gana el combate...
+			if (pj.getNivel() < 10 && pj.getVida() > 0) {
+				currentEnemy.resucitar();
+				assignCurrentEnemy();
+			}
+		}
+		printFinal();
+	}
+
+	public void printFinal() {
+		if (pj.getNivel() >= 10) {
+			System.out.println(pj.getNombre() + " ha alcanzado el nivel " + pj.getNivel()
+					+ " termina la partida.\nHas ganado, enhorabuena.");
+		} else {
+			System.out.println(pj.getNombre() + "ha sido debilitado, termina la partida\nHas perdido.");
 		}
 	}
 

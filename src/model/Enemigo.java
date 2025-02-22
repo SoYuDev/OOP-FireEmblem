@@ -94,6 +94,21 @@ public class Enemigo extends Estudiante {
 		}
 	}
 
+	public void resucitar() {
+		// Asignación de vida...
+		if (getDestreza() == Destrezas.DEBIL) {
+			this.setVida(VIDA_DEBIL);
+		} else {
+			this.setVida(VIDA_FUERTE);
+		}
+		// Asignación de ataque y defensa
+		this.setAtaque(this.getAtaque() + 1);
+		this.setDefensa(this.getDefensa() + 1);
+		System.out.println(
+				"El enemigo: " + this.getNombre() + " resucita!\n" + "Sus estadisticas pasan a ser las siguientes: ");
+		imprimirInfo();
+	}
+
 	// MÉTODOS DE IMPRESIÓN.
 
 	@Override

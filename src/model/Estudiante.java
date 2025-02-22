@@ -130,7 +130,7 @@ public class Estudiante {
 
 					System.out.println(nombre + " Ataca a " + defensor.getNombre() + " quitandole " + dmgToDo
 							+ " puntos de vida. - " + "Ataque número: " + (i + 1) + " de " + N_ATTACKS_PJ);
-					
+
 					if (resultado < 0) {
 						resultado = 0;
 					}
@@ -141,7 +141,8 @@ public class Estudiante {
 			if (defensor.getVida() <= 0) {
 				System.out.println(defensor.getNombre() + " ha sido debilitado/a!");
 				checkDestreza(defensor);
-				// Este else lo pongo para la info de la consola.
+				// Este else lo pongo para la info de la consola para despues de los 3 ataques
+				// imprima la vida del enemigo.
 			} else {
 				defensor.imprimirInfo();
 			}
@@ -186,13 +187,13 @@ public class Estudiante {
 		if (vida + CURA_VIDA_LVLUP > maxVida) {
 			System.out.println("Al subir de nivel recuperas: " + (maxVida - vida) + " puntos de vida!");
 			vida = maxVida;
-			
+
 		} else {
 			System.out.println("Al subir de nivel recuperas: " + CURA_VIDA_LVLUP + " puntos de vida!");
 			vida += CURA_VIDA_LVLUP;
 
 		}
-		
+
 		imprimirInfo();
 	}
 
@@ -211,8 +212,8 @@ public class Estudiante {
 
 	// MÉTODOS DE IMPRESIÓN
 	public String toString() {
-		String info = "Estudiante: " + nombre + "\nCasa: " + casa + "\nVida: " + vida + "/" + maxVida + "\nAtaque: " + ataque
-				+ "\nDefensa: " + defensa + "\nNivel: " + nivel + "\n";
+		String info = "Estudiante: " + nombre + "\nCasa: " + casa + "\nVida: " + vida + "/" + maxVida + "\nAtaque: "
+				+ ataque + "\nDefensa: " + defensa + "\nNivel: " + nivel + "\n";
 		return info;
 	}
 
@@ -224,7 +225,7 @@ public class Estudiante {
 	public void printSubidaNivel(int i) {
 		System.out.println("Has subido " + (i + 1) + " nivel/es!\n" + "Vida: " + vida + "/" + maxVida + " +"
 				+ VIDA_LVLUP[i] + "\n" + "Ataque: " + ataque + " +" + ATAQUE_LVLUP[i] + "\n" + "Defensa: " + ataque
-				+ " +" + ATAQUE_LVLUP[i] + "\n");
+				+ " +" + ATAQUE_LVLUP[i] + "\n" + "Nivel: " + nivel + "\n");
 	}
 
 }
