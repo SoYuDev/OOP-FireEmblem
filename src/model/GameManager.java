@@ -150,8 +150,8 @@ public class GameManager {
 		while(pj.getVida() > 0 && currentEnemy.getVida() > 0) {
 			pj.atacar(currentEnemy);
 			currentEnemy.atacar(pj);
-			System.out.println("Vida de: " + pj.getNombre() + ": " + pj.getVida() +"/" + pj.getMaxVida());
-			System.out.println("Vida de: " + currentEnemy.getNombre() + ": " + currentEnemy.getVida() +"/" + currentEnemy.getMaxVida());
+			pj.imprimirInfo();
+			currentEnemy.imprimirInfo();
 		}
 		}
 		

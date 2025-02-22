@@ -70,16 +70,22 @@ public class Enemigo extends Estudiante {
 
 			for (int i = 0; i < N_ATTACKS_ENEMY; i++) {
 				if (estudiante.getVida() > 0) {
-					int resultado = estudiante.getVida() - (this.getAtaque() - estudiante.getDefensa());
+					// Comprobación del daño a hacer
+					int dmgToDo = this.getAtaque() - estudiante.getDefensa();
+
+					if (dmgToDo <= 0) {
+						dmgToDo = 1;
+					}
+					int resultado = estudiante.getVida() - dmgToDo;
 
 					System.out.println(this.getNombre() + " Ataca a " + estudiante.getNombre() + " quitandole "
-							+ resultado + " puntos de vida.");
-					System.out.println("Ataque número: " + i + " de " + N_ATTACKS_ENEMY);
+							+ dmgToDo + " puntos de vida.");
+					System.out.println("Ataque número: " + (i + 1) + " de " + N_ATTACKS_ENEMY);
+					
 					if (resultado < 0) {
 						resultado = 0;
 					}
 					estudiante.setVida(resultado);
-					estudiante.imprimirInfo();
 
 				} else {
 					System.out.println(estudiante.getNombre() + " está muerto/a");
@@ -92,7 +98,7 @@ public class Enemigo extends Estudiante {
 
 	@Override
 	public String toString() {
-		String infoEnemigo = "Enemigo: " + this.getNombre() + "\nVida: " + this.getVida() + "\nAtaque: "
+		String infoEnemigo = "Enemigo: " + this.getNombre() + "\nVida: " + this.getVida() + "/" + getMaxVida() + "\nAtaque: "
 				+ this.getAtaque() + "\nDefensa: " + this.getDefensa() + "\nDestreza: " + this.getDestreza() + "\n";
 		return infoEnemigo;
 	}

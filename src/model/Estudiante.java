@@ -12,9 +12,10 @@ public class Estudiante {
 	private int nivel;
 	private int maxVida;
 
-	private final int VIDA_LVLUP = 5;
-	private final int ATAQUE_LVLUP = 2;
-	private final int DEFENSA_LVLUP = 1;
+	private final int[] VIDA_LVLUP = { 5, 8 };
+	private final int[] ATAQUE_LVLUP = { 2, 3 };
+	private final int[] DEFENSA_LVLUP = { 1, 2 };
+	private final int CURA_VIDA_LVLUP = 10;
 
 	private final int N_ATTACKS_PJ = 3;
 
@@ -117,30 +118,38 @@ public class Estudiante {
 		if (vida > 0) {
 
 			for (int i = 0; i < N_ATTACKS_PJ; i++) {
+				// Compruebo en cada ataque si el defensor está vivo
 				if (defensor.getVida() > 0) {
-					int resultado = defensor.getVida() - (this.ataque - defensor.getDefensa());
+					// Comprobación del daño a hacer
+					int dmgToDo = this.ataque - defensor.getDefensa();
 
-					System.out.println(nombre + " Ataca a " + defensor.getNombre() + " quitandole " + resultado
+					if (dmgToDo <= 0) {
+						dmgToDo = 1;
+					}
+					int resultado = defensor.getVida() - dmgToDo;
+
+					System.out.println(nombre + " Ataca a " + defensor.getNombre() + " quitandole " + dmgToDo
 							+ " puntos de vida.");
-					System.out.println("Ataque número: " + i + " de " + N_ATTACKS_PJ);
+					System.out.println("Ataque número: " + (i + 1) + " de " + N_ATTACKS_PJ);
+					
 					if (resultado < 0) {
 						resultado = 0;
 					}
 					defensor.setVida(resultado);
-					defensor.imprimirInfo();
-
-				} else {
-					System.out.println(defensor.getNombre() + " está muerto/a");
 				}
 			}
-			checkDestreza(defensor);
+			// Si el defensor ha sido derrotado...
+			if (defensor.getVida() <= 0) {
+				System.out.println(defensor.getNombre() + " ha sido debilitado/a!");
+				checkDestreza(defensor);
+			}
 		}
 	}
 
 	public void checkDestreza(Enemigo enemy) {
-		if (enemy.getDestreza() == Destrezas.DEBIL && enemy.getVida() <= 0) {
+		if (enemy.getDestreza() == Destrezas.DEBIL) {
 			subirNivel(1);
-		} else if (enemy.getDestreza() == Destrezas.FUERTE && enemy.getVida() <= 0) {
+		} else if (enemy.getDestreza() == Destrezas.FUERTE) {
 			subirNivel(2);
 		}
 	}
@@ -149,25 +158,41 @@ public class Estudiante {
 		switch (index) {
 
 		case 1:
-			vida += VIDA_LVLUP;
-			ataque += ATAQUE_LVLUP;
-			defensa += DEFENSA_LVLUP;
-			printSubidaNivel();
+			subirStatsMasLvl(index);
+			printSubidaNivel(index - 1);
+			curarAlSubirLvl();
 			break;
 
 		case 2:
-			for (int i = 0; i < 2; i++) {
-				vida += VIDA_LVLUP;
-				ataque += ATAQUE_LVLUP;
-				defensa += DEFENSA_LVLUP;
-				printSubidaNivel();
+			subirStatsMasLvl(index);
+			printSubidaNivel(index - 1);
+			// Como sube de nivel dos veces dos curas...
+			for (int i = 0; i < index; i++) {
+				curarAlSubirLvl();
 			}
-
 			break;
 
 		default:
 			System.out.println("Error");
 		}
+	}
+
+	public void curarAlSubirLvl() {
+
+		if (vida + CURA_VIDA_LVLUP > maxVida) {
+			vida = maxVida;
+			System.out.println("Al subir de nivel recuperas: " + (maxVida - vida) + " puntos de vida!");
+		} else {
+			vida += CURA_VIDA_LVLUP;
+			System.out.println("Al subir de nivel recuperas: " + CURA_VIDA_LVLUP + " puntos de vida!");
+		}
+	}
+
+	public void subirStatsMasLvl(int i) {
+		maxVida += VIDA_LVLUP[i - 1];
+		ataque += ATAQUE_LVLUP[i - 1];
+		defensa += DEFENSA_LVLUP[i - 1];
+		nivel += i;
 	}
 
 	public int generateRandom(int min, int max) {
@@ -178,7 +203,7 @@ public class Estudiante {
 
 	// MÉTODOS DE IMPRESIÓN
 	public String toString() {
-		String info = "Estudiante: " + nombre + "\nCasa: " + casa + "\nVida: " + vida + "\nAtaque: " + ataque
+		String info = "Estudiante: " + nombre + "\nCasa: " + casa + "\nVida: " + vida + "/" + maxVida + "\nAtaque: " + ataque
 				+ "\nDefensa: " + defensa + "\nNivel: " + nivel;
 		return info;
 	}
@@ -188,9 +213,10 @@ public class Estudiante {
 		System.out.println(toString());
 	}
 
-	public void printSubidaNivel() {
-		System.out.println("Has subido de nivel!\n" + "Vida: " + vida + "/" + maxVida + " +" + VIDA_LVLUP + "\n"
-				+ "Ataque: " + ataque + " +" + ATAQUE_LVLUP + "\n" + "Defensa: " + ataque + " +" + ATAQUE_LVLUP + "\n");
+	public void printSubidaNivel(int i) {
+		System.out.println("Has subido " + (i + 1) + " nivel/es!\n" + "Vida: " + vida + "/" + maxVida + " +"
+				+ VIDA_LVLUP[i] + "\n" + "Ataque: " + ataque + " +" + ATAQUE_LVLUP[i] + "\n" + "Defensa: " + ataque
+				+ " +" + ATAQUE_LVLUP[i] + "\n");
 	}
 
 }
