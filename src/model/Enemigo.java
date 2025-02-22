@@ -13,30 +13,34 @@ public class Enemigo extends Estudiante {
 	private final int DEFENSA_FUERTE = 4;
 	private final int DEFENSA_DEBIL = 2;
 
+	private final int N_ATTACKS_ENEMY = 1;
+
 	// CONSTRUCTORES
 
 	// Constructor Vacío
 	public Enemigo() {
-		super("Enemigo básico", 30, 8, 2);
+		super("Enemigo básico", 30, 30, 8, 2);
 		destreza = Destrezas.DEBIL;
 	}
 
 	// Constructor Completo
-	public Enemigo(String nombre, int vida, int ataque, int defensa, Destrezas destreza) {
-		super(nombre, vida, ataque, defensa);
+	public Enemigo(String nombre, int vida, int maxVida, int ataque, int defensa, Destrezas destreza) {
+		super(nombre, vida, maxVida, ataque, defensa);
 		this.destreza = destreza;
 	}
 
 	// Constructor específico para facilitar el uso en el código.
 	public Enemigo(String nombre, Destrezas destreza) {
 		// Siempre hay que llamar primero al super constructor
-		super("Paquito", 30, 8, 2);
+		super("Paquito", 30, 30, 8, 2);
 		if (destreza.equals(Destrezas.DEBIL)) {
 			this.setVida(VIDA_DEBIL);
+			this.setMaxVida(VIDA_DEBIL);
 			this.setAtaque(ATAQUE_DEBIL);
 			this.setDefensa(DEFENSA_DEBIL);
 		} else {
 			this.setVida(VIDA_FUERTE);
+			this.setMaxVida(VIDA_FUERTE);
 			this.setAtaque(ATAQUE_FUERTE);
 			this.setDefensa(DEFENSA_FUERTE);
 		}
@@ -54,12 +58,64 @@ public class Enemigo extends Estudiante {
 		this.destreza = destreza;
 	}
 
+	public int getAttacksEnemy() {
+		return N_ATTACKS_ENEMY;
+	}
+
+	// MÉTODOS VARIOS
+
+	public void atacar(Estudiante estudiante) {
+
+		if (this.getVida() > 0) {
+
+			for (int i = 0; i < N_ATTACKS_ENEMY; i++) {
+				if (estudiante.getVida() > 0) {
+					// Comprobación del daño a hacer
+					int dmgToDo = this.getAtaque() - estudiante.getDefensa();
+
+					if (dmgToDo <= 0) {
+						dmgToDo = 1;
+					}
+					int resultado = estudiante.getVida() - dmgToDo;
+
+					System.out.println(this.getNombre() + " Ataca a " + estudiante.getNombre() + " quitandole "
+							+ dmgToDo + " puntos de vida." + " - Ataque número: " + (i + 1) + " de " + N_ATTACKS_ENEMY);
+
+					if (resultado < 0) {
+						resultado = 0;
+					}
+					estudiante.setVida(resultado);
+					estudiante.imprimirInfo();
+
+				} else {
+					System.out.println(estudiante.getNombre() + " está muerto/a");
+				}
+			}
+		}
+	}
+
+	public void resucitar() {
+		// Asignación de vida...
+		if (getDestreza() == Destrezas.DEBIL) {
+			this.setVida(VIDA_DEBIL);
+		} else {
+			this.setVida(VIDA_FUERTE);
+		}
+		// Asignación de ataque y defensa
+		this.setAtaque(this.getAtaque() + 1);
+		this.setDefensa(this.getDefensa() + 1);
+		System.out.println(
+				"El enemigo: " + this.getNombre() + " resucita!\n" + "Sus estadisticas pasan a ser las siguientes: ");
+		imprimirInfo();
+	}
+
 	// MÉTODOS DE IMPRESIÓN.
 
 	@Override
 	public String toString() {
-		String infoEnemigo = "Enemigo: " + this.getNombre() + "\nVida: " + this.getVida() + "\nAtaque: "
-				+ this.getAtaque() + "\nDefensa: " + this.getDefensa() + "\nDestreza: " + this.getDestreza() + "\n";
+		String infoEnemigo = "Enemigo: " + this.getNombre() + "\nVida: " + this.getVida() + "/" + getMaxVida()
+				+ "\nAtaque: " + this.getAtaque() + "\nDefensa: " + this.getDefensa() + "\nDestreza: "
+				+ this.getDestreza() + "\n";
 		return infoEnemigo;
 	}
 

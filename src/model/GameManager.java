@@ -20,21 +20,22 @@ public class GameManager {
 	private ArrayList<Enemigo> enemigosToFight = new ArrayList<Enemigo>();;
 
 	Estudiante pj = new Estudiante();
+	Enemigo currentEnemy = new Enemigo();
 
 	Scanner sc = new Scanner(System.in);
 
 	public void bienvenida() {
 
 		System.out.println("Bienvenido al mundo de Fire Emblem Three Houses.\n");
-		
-		assignEnemies();
+
+		assignListOfEnemies();
 
 		assignChar();
 	}
 
 	// Muestra los elementos de un Array en un menú.
 	public void displayMenu(String[] arrayString) {
-		System.out.println("Elige entre alguna de las siguientes opciones: ");
+		System.out.println("Elige entre alguna de las siguientes opciones: \n");
 		for (int i = 0; i < arrayString.length; i++) {
 			System.out.println((i + 1) + ".-" + arrayString[i] + "\n");
 		}
@@ -75,7 +76,6 @@ public class GameManager {
 			printPjSelection();
 
 		case 3:
-
 			setNameAndHouse(indexSelectedChar - 1);
 			printPjSelection();
 
@@ -95,22 +95,22 @@ public class GameManager {
 			n = sc.nextInt();
 			sc.nextLine();
 		} while (n < N_MIN_ENEMIES || n > N_MAX_ENEMIES);
-		System.out.println("Perfecto has seleccionado " + nOfEnemies + " enemigos con los que combatir.");
 		nOfEnemies = n;
+		System.out.println("Perfecto, has seleccionado " + nOfEnemies + " enemigos con los que combatir.");
 	}
 
 	public void setNameAndHouse(int index) {
 		pj.setNombre(MAIN_CHARS[index]);
 		pj.setCasa(MAIN_HOUSES[index]);
 	}
-	
+
 	public int generateRandom(int min, int max) {
 		Random rand = new Random();
 		return rand.nextInt(max - min + 1) + min;
-		
+
 	}
 
-	public void assignEnemies() {
+	public void assignListOfEnemies() {
 
 		Enemigo enemCabOro = new Enemigo("Caballero Oro", Destrezas.DEBIL);
 		totalEnemigos.add(enemCabOro);
@@ -128,11 +128,50 @@ public class GameManager {
 		totalEnemigos.add(enemMagoArcano);
 
 	}
-	
-	public void assignEnemiesToFight() {
+
+	public void assignListOfEnemiesToFight() {
+		setNOfEnemies();
 		for (int i = 0; i < nOfEnemies; i++) {
 			enemigosToFight.add(totalEnemigos.get(i));
 			System.out.println("Se ha añadido el enemigo: " + totalEnemigos.get(i).getNombre() + " a la lista");
+		}
+	}
+
+	public void assignCurrentEnemy() {
+		// Generamos un valor aleatorio entre 0 y el número de enemigos especificado
+		// Le restamos - 1 porque este número irá al índice de un Array.
+		int random = generateRandom(0, nOfEnemies - 1);
+		currentEnemy = enemigosToFight.get(random);
+		System.out.println("Se ha asignado el siguiente enemigo: " + currentEnemy.getNombre() + "\n");
+		currentEnemy.imprimirInfo();
+	}
+
+	public void combate() {
+		while (pj.getVida() > 0 && currentEnemy.getVida() > 0) {
+			pj.atacar(currentEnemy);
+			currentEnemy.atacar(pj);
+		}
+	}
+
+	public void juego() {
+
+		while (pj.getVida() > 0 && pj.getNivel() < 10) {
+			combate();
+			// Si el pj gana el combate...
+			if (pj.getNivel() < 10 && pj.getVida() > 0) {
+				currentEnemy.resucitar();
+				assignCurrentEnemy();
+			}
+		}
+		printFinal();
+	}
+
+	public void printFinal() {
+		if (pj.getNivel() >= 10) {
+			System.out.println(pj.getNombre() + " ha alcanzado el nivel " + pj.getNivel()
+					+ " termina la partida.\nHas ganado, enhorabuena.");
+		} else {
+			System.out.println(pj.getNombre() + "ha sido debilitado, termina la partida\nHas perdido.");
 		}
 	}
 
@@ -143,7 +182,7 @@ public class GameManager {
 	}
 
 	public void printPjSelection() {
-		System.out.println("Has seleccionado a: ");
+		System.out.println("Has seleccionado a: \n");
 		pj.imprimirInfo();
 	}
 }
