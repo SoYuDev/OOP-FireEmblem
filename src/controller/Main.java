@@ -7,14 +7,14 @@ public class Main {
 	public static void main(String[] args) {
 
 		GameManager gm = new GameManager();
-		//Bienvenida
+		// Bienvenida
 		gm.bienvenida();
-		//Selección número enemigos y asignación de los mismos
+		// Selección número enemigos y asignación de los mismos
 		gm.assignListOfEnemiesToFight();
 		// Asignación aleatoria del enemigo.
 		gm.assignCurrentEnemy();
-		// Combate
-		gm.combate();
+		// juego
+		gm.juego();
 	}
 
 }

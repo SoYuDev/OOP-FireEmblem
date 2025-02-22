@@ -153,6 +153,28 @@ public class GameManager {
 		}
 	}
 
+	public void juego() {
+
+		while (pj.getVida() > 0 && pj.getNivel() < 10) {
+			combate();
+			// Si el pj gana el combate...
+			if (pj.getNivel() < 10 && pj.getVida() > 0) {
+				currentEnemy.resucitar();
+				assignCurrentEnemy();
+			}
+		}
+		printFinal();
+	}
+
+	public void printFinal() {
+		if (pj.getNivel() >= 10) {
+			System.out.println(pj.getNombre() + " ha alcanzado el nivel " + pj.getNivel()
+					+ " termina la partida.\nHas ganado, enhorabuena.");
+		} else {
+			System.out.println(pj.getNombre() + "ha sido debilitado, termina la partida\nHas perdido.");
+		}
+	}
+
 	public void printEnemies(ArrayList<Enemigo> enemiesToPrint) {
 		for (Enemigo enem : enemiesToPrint) {
 			enem.imprimirInfo();
