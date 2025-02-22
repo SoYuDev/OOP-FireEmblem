@@ -10,10 +10,10 @@ public class Main {
 		//Bienvenida
 		gm.bienvenida();
 		//Selección número enemigos y asignación de los mismos
-		gm.assignEnemiesToFight();
-		
+		gm.assignListOfEnemiesToFight();
+		// Asignación aleatoria del enemigo.
 		gm.assignCurrentEnemy();
-		
+		// Combate
 		gm.combate();
 	}
 

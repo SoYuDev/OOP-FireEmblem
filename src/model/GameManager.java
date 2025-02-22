@@ -14,10 +14,6 @@ public class GameManager {
 
 	private final int N_MIN_ENEMIES = 2;
 	private final int N_MAX_ENEMIES = 5;
-	
-	private final int N_ATTACKS_PJ = 3;
-	private final int N_ATTACKS_ENEMY = 1;
-	
 
 	private int nOfEnemies = 0;
 	private ArrayList<Enemigo> totalEnemigos = new ArrayList<Enemigo>();
@@ -32,7 +28,7 @@ public class GameManager {
 
 		System.out.println("Bienvenido al mundo de Fire Emblem Three Houses.\n");
 
-		assignEnemies();
+		assignListOfEnemies();
 
 		assignChar();
 	}
@@ -114,7 +110,7 @@ public class GameManager {
 
 	}
 
-	public void assignEnemies() {
+	public void assignListOfEnemies() {
 
 		Enemigo enemCabOro = new Enemigo("Caballero Oro", Destrezas.DEBIL);
 		totalEnemigos.add(enemCabOro);
@@ -133,7 +129,7 @@ public class GameManager {
 
 	}
 
-	public void assignEnemiesToFight() {
+	public void assignListOfEnemiesToFight() {
 		setNOfEnemies();
 		for (int i = 0; i < nOfEnemies; i++) {
 			enemigosToFight.add(totalEnemigos.get(i));
@@ -142,6 +138,8 @@ public class GameManager {
 	}
 	
 	public void assignCurrentEnemy() {
+		// Generamos un valor aleatorio entre 0 y el número de enemigos especificado
+		// Le restamos - 1 porque este número irá al índice de un Array.
 		int random = generateRandom(0, nOfEnemies - 1);
 		currentEnemy = enemigosToFight.get(random);
 		System.out.println("Se ha asignado el siguiente enemigo: \n");
@@ -149,11 +147,14 @@ public class GameManager {
 	}
 	
 	public void combate() {
-		pj.atacar(currentEnemy, N_ATTACKS_PJ);
-		currentEnemy.atacar(pj, N_ATTACKS_ENEMY);
-		System.out.println("Vida de: " + pj.getNombre() + ": " + pj.getVida() +"/" + pj.getMaxVida());
-		System.out.println("Vida de: " + currentEnemy.getNombre() + ": " + currentEnemy.getVida() +"/" + currentEnemy.getMaxVida());
-	}
+		while(pj.getVida() > 0 && currentEnemy.getVida() > 0) {
+			pj.atacar(currentEnemy);
+			currentEnemy.atacar(pj);
+			System.out.println("Vida de: " + pj.getNombre() + ": " + pj.getVida() +"/" + pj.getMaxVida());
+			System.out.println("Vida de: " + currentEnemy.getNombre() + ": " + currentEnemy.getVida() +"/" + currentEnemy.getMaxVida());
+		}
+		}
+		
 
 	public void printEnemies(ArrayList<Enemigo> enemiesToPrint) {
 		for (Enemigo enem : enemiesToPrint) {

@@ -13,6 +13,8 @@ public class Enemigo extends Estudiante {
 	private final int DEFENSA_FUERTE = 4;
 	private final int DEFENSA_DEBIL = 2;
 
+	private final int N_ATTACKS_ENEMY = 1;
+
 	// CONSTRUCTORES
 
 	// Constructor Vacío
@@ -54,6 +56,36 @@ public class Enemigo extends Estudiante {
 
 	public void setDestreza(Destrezas destreza) {
 		this.destreza = destreza;
+	}
+
+	public int getAttacksEnemy() {
+		return N_ATTACKS_ENEMY;
+	}
+
+	// MÉTODOS VARIOS
+
+	public void atacar(Estudiante estudiante) {
+
+		if (this.getVida() > 0) {
+
+			for (int i = 0; i < N_ATTACKS_ENEMY; i++) {
+				if (estudiante.getVida() > 0) {
+					int resultado = estudiante.getVida() - (this.getAtaque() - estudiante.getDefensa());
+
+					System.out.println(this.getNombre() + " Ataca a " + estudiante.getNombre() + " quitandole "
+							+ resultado + " puntos de vida.");
+					System.out.println("Ataque número: " + i + " de " + N_ATTACKS_ENEMY);
+					if (resultado < 0) {
+						resultado = 0;
+					}
+					estudiante.setVida(resultado);
+					estudiante.imprimirInfo();
+
+				} else {
+					System.out.println(estudiante.getNombre() + " está muerto/a");
+				}
+			}
+		}
 	}
 
 	// MÉTODOS DE IMPRESIÓN.
